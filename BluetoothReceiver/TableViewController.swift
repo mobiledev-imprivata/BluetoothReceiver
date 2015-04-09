@@ -81,7 +81,7 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ServiceCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ServiceCell", forIndexPath: indexPath) as! UITableViewCell
         cell.textLabel?.text = "Service \(indexPath.row + 1)"
         return cell
     }
@@ -167,7 +167,7 @@ extension TableViewController: CBPeripheralDelegate {
             for i in 0 ..< characteristicUUIDs.count {
                 // TODO
             }
-            peripheral.discoverCharacteristics(nil, forService: service as CBService)
+            peripheral.discoverCharacteristics(nil, forService: service as! CBService)
         }
     }
     
@@ -186,7 +186,7 @@ extension TableViewController: CBPeripheralDelegate {
             let uuid = "\(characteristic.UUID)"
             let i = indexOfString(uuid, inArray: characteristicUUIDs) + 1
             println("characteristic \(i) \(uuid)")
-            peripheral.readValueForCharacteristic(characteristic as CBCharacteristic)
+            peripheral.readValueForCharacteristic(characteristic as! CBCharacteristic)
         }
     }
     
@@ -199,7 +199,7 @@ extension TableViewController: CBPeripheralDelegate {
             println("peripheral didUpdateValueForCharacteristic error \(error.localizedDescription)")
             return
         }
-        let value: String = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)!
+        let value: String = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)! as String
         println("  \(value)")
         // let shorterValue = value.substringFromIndex(advance(value.startIndex, 20))
         nCharacteristicsRequested--;
@@ -215,10 +215,8 @@ extension TableViewController: CBPeripheralDelegate {
             let i = indexOfString(serviceUUID, inArray: serviceUUIDs) + 1
             let alert = UIAlertView(title: "Service \(i)", message: alertMessage, delegate: nil, cancelButtonTitle: "OK")
             alert.show()
-
         }
     }
-    
     
 }
 
